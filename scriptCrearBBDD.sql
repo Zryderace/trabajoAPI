@@ -1,28 +1,30 @@
-DROP DATABASE IF EXISTS equipoDesarrollo;
-CREATE DATABASE IF NOT EXISTS equipoDesarrollo;
-USE equipoDesarrollo;
+DROP DATABASE IF EXISTS futbolDB;
+CREATE DATABASE IF NOT EXISTS futbolDB;
+USE futbolDB;
 
--- tabla empleados
-CREATE TABLE IF NOT EXISTS empleados (
+-- Tabla equipos (Teams)
+CREATE TABLE IF NOT EXISTS equipos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL
+    ciudad VARCHAR(100) NOT NULL,
+    estadio VARCHAR(100) NOT NULL
 );
 
--- tabla proyectos
-CREATE TABLE IF NOT EXISTS proyectos (
+-- Tabla jugadores (Players)
+CREATE TABLE IF NOT EXISTS jugadores (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    idEmpleado INT NOT NULL,
+    idEquipo INT NOT NULL,
     nombre VARCHAR(100) NOT NULL,
+    edad INT NOT NULL,
+    nacionalidad VARCHAR(100) NOT NULL,
+    FOREIGN KEY (idEquipo) REFERENCES equipos(id) ON DELETE CASCADE
+);
+
+-- Tabla posiciones (Positions)
+CREATE TABLE IF NOT EXISTS posiciones (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    idJugador INT NOT NULL,
+    posicion VARCHAR(50) NOT NULL,
     descripcion TEXT,
-    FOREIGN KEY (idEmpleado) REFERENCES empleados(id) ON DELETE CASCADE
-);
-
--- tabla tareas
-CREATE TABLE IF NOT EXISTS tareas (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    idProyecto INT NOT NULL,
-    titulo VARCHAR(255) NOT NULL,
-    estado ENUM('pendiente', 'enProgreso', 'completado') DEFAULT 'pendiente',
-    FOREIGN KEY (idProyecto) REFERENCES proyectos(id) ON DELETE CASCADE
+    FOREIGN KEY (idJugador) REFERENCES jugadores(id) ON DELETE CASCADE
 );
