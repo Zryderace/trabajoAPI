@@ -1,21 +1,37 @@
-INSERT INTO empleados (nombre, email) VALUES 
-('Carlos Pérez', 'carlos.perez@gmail.com'),
-('Ana López', 'ana.lopez@gmail.com'),
-('Luis Fernández', 'luis.fernandez@gmail.com'),
-('María Gómez', 'maria.gomez@gmail.com'),
-('Javier Torres', 'javier.torres@gmail.com');
+USE futbolDB;
+-- Insert Teams
+INSERT INTO equipos (nombre, ciudad, estadio) VALUES 
+('FC Barcelona', 'Barcelona', 'Camp Nou'),
+('Real Madrid', 'Madrid', 'Santiago Bernabéu'),
+('Manchester United', 'Manchester', 'Old Trafford'),
+('Paris Saint-Germain', 'Paris', 'Parc des Princes'),
+('Bayern Munich', 'Munich', 'Allianz Arena');
 
-INSERT INTO proyectos (idEmpleado, nombre, descripcion) VALUES 
-(1, 'Desarrollo Web', 'Creación de un sitio web moderno'),   -- Carlos
-(2, 'Aplicación Móvil', 'App para Android e iOS'),           -- Ana
-(3, 'Sistema de Gestión', 'Software interno para la empresa'), -- Luis
-(1, 'Rediseño UX', 'Mejoras en la experiencia de usuario'),  -- Carlos
-(4, 'E-commerce', 'Tienda en línea para ventas');            -- María
+-- Insert Players
+INSERT INTO jugadores (idEquipo, nombre, edad, nacionalidad) VALUES 
+(1, 'Lionel Messi', 36, 'Argentina'),
+(1, 'Pedri', 21, 'Espana'),
+(2, 'Karim Benzema', 36, 'Francia'),
+(2, 'Vinícius Jr.', 24, 'Brasil'),
+(3, 'Bruno Fernandes', 29, 'Portugal'),
+(3, 'Marcus Rashford', 26, 'Inglaterra'),
+(3, 'Casemiro', 32, 'Brasil'),
+(4, 'Kylian Mbappé', 25, 'Francia'),
+(4, 'Neymar Jr.', 32, 'Brasil'),
+(5, 'Harry Kane', 30, 'Inglaterra'),
+(5, 'Joshua Kimmich', 29, 'Alemania');
 
+-- Insert Positions
+INSERT INTO posiciones (idJugador, posicion, descripcion) VALUES 
+(1, 'Delantero', 'Atacante principal, responsable de marcar goles.'),
+(2, 'Centrocampista', 'Conecta la defensa con el ataque, distribuye el balón.'),
+(3, 'Delantero', 'Jugador ofensivo con capacidad de finalización.'),
+(4, 'Extremo', 'Jugador veloz que ataca por las bandas.'),
+(5, 'Centrocampista', 'Organizador del equipo en la mitad del campo.'),
+(6, 'Delantero', 'Atacante rápido y goleador.'),
+(7, 'Mediocentro Defensivo', 'Protege la defensa y recupera balones.'),
+(8, 'Delantero', 'Extremadamente rápido y hábil con el balón.'),
+(9, 'Extremo', 'Jugador con gran regate y desborde por las bandas.'),
+(10, 'Delantero', 'Finalizador nato con gran capacidad de definición.'),
+(11, 'Centrocampista', 'Jugador versátil en la media cancha.');
 
-INSERT INTO tareas (idProyecto, titulo, estado) VALUES 
-(1, 'Diseñar interfaz', 'pendiente'),          -- Proyecto: Desarrollo Web
-(2, 'Integrar pasarela de pago', 'enProgreso'), -- Proyecto: Aplicación Móvil
-(3, 'Configurar base de datos', 'completado'),  -- Proyecto: Sistema de Gestión
-(1, 'Optimizar SEO', 'pendiente'),             -- Proyecto: Desarrollo Web
-(5, 'Agregar sistema de facturación', 'pendiente'); -- Proyecto: E-commerce
