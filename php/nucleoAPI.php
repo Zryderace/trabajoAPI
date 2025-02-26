@@ -36,30 +36,42 @@ switch ($metodo) {
 
 function controlGet($_conexion, $entrada)
 {
-    //sin ciudad, toda la tabla
-    //con ciudad, solo la linea que pertenezca
-    if (isset($_GET["ciudad"]) && $_GET["ciudad"] != "") {
-        $consulta = "SELECT * FROM desarrolladoras WHERE ciudad = :c";
-        $stmt = $_conexion->prepare($consulta);
-        $stmt->execute([
-            "c" => $_GET["ciudad"]
-        ]);
-    } else {
-        $consulta = "SELECT * FROM desarrolladoras";
+    //recibimos nombre del jugador
+    //si esta vacia devolvemos todos
+    //si no esta el jugador damos json error
+    //hacer todos los nombre a mayusculas
+
+    //devolver mensaje oculto con palabra secreta? por los jajas
+
+    //TODO recoger informacion
+
+    $informacion = $_GET["informacion"];
+
+    $consulta = "SELECT $informacion FROM jugadores";
+
+    if ($_GET["nombreJugador"] == "") {
+        // $consulta = "SELECT * FROM jugadores";
         $stmt = $_conexion->prepare($consulta);
         $stmt->execute();
+    } else {
+        $consulta .= " WHERE nombre LIKE :c";
+        $stmt = $_conexion->prepare($consulta);
+        $parecido = '%' . $_GET["nombreJugador"] . '%';
+        $stmt->execute([
+            "c" => $parecido
+        ]);
     }
 
-    //devuelve todos los regstros en array asociativo
-    /**
-     * [
-     *  ["nombre_desarrolladora" => "Nintendo", "anno", "1995"],
-     *  ["nombre_desarrolladora" => "Valve", "anno", "2000"]
-     * ]
-     */
     //solo para get
     $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    if (count($res)==0) {
+        //no existe jugador/es con nombre, cambiar res
+        $res = [
+            "error" => "no existe jugador con ese nombre"
+        ];
+    }
+    
     //lo hacemos json otra vez
     echo json_encode($res);
 }
