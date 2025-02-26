@@ -1,7 +1,7 @@
 <?php
 
     $_host = "localhost";
-    $_bd = "equipodesarrollo";
+    $_bd = "futboldb";
     $_usuario = "root";
     $_contrasenia = "";
 
