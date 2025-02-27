@@ -34,7 +34,7 @@
             $nombreJugador = ucfirst(strtolower(trim($nombreJugador)));
 
             if (strlen($nombreJugador)<3) {
-                echo("Por favor introduce 3 letra o mas para una mejor busqueda");
+                echo("Por favor introduce 3 letras o mas para una mejor busqueda");
                 $error = true;
             } else {
                 $url = $url . "&nombreJugador=" . $nombreJugador;
@@ -43,6 +43,7 @@
 
             if ($error) {
                 //hay algun error
+                
             } else {
                 //all gucci sigma 100% aura no cap
                                 

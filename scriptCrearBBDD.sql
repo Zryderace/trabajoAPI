@@ -10,21 +10,22 @@ CREATE TABLE IF NOT EXISTS equipos (
     estadio VARCHAR(100) NOT NULL
 );
 
+-- Tabla posiciones (Positions)
+CREATE TABLE IF NOT EXISTS posiciones (
+    posicion VARCHAR(50) PRIMARY KEY,
+    descripcion VARCHAR(70) NOT NULL
+);
+
 -- Tabla jugadores (Players)
 CREATE TABLE IF NOT EXISTS jugadores (
     id INT AUTO_INCREMENT PRIMARY KEY,
     idEquipo INT NOT NULL,
     nombre VARCHAR(100) NOT NULL,
-    edad INT NOT NULL,
+    posicion VARCHAR(50) NOT NULL,
     nacionalidad VARCHAR(100) NOT NULL,
-    FOREIGN KEY (idEquipo) REFERENCES equipos(id) ON DELETE CASCADE
+    edad INT NOT NULL,
+    FOREIGN KEY (idEquipo) REFERENCES equipos(id) ON DELETE CASCADE,
+    FOREIGN KEY (posicion) REFERENCES posiciones(posicion) ON DELETE CASCADE
 );
 
--- Tabla posiciones (Positions)
-CREATE TABLE IF NOT EXISTS posiciones (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    idJugador INT NOT NULL,
-    posicion VARCHAR(50) NOT NULL,
-    descripcion TEXT,
-    FOREIGN KEY (idJugador) REFERENCES jugadores(id) ON DELETE CASCADE
-);
+

@@ -1,37 +1,35 @@
 USE futbolDB;
 -- Insert Teams
 INSERT INTO equipos (nombre, ciudad, estadio) VALUES 
-('FC Barcelona', 'Barcelona', 'Camp Nou'),
 ('Real Madrid', 'Madrid', 'Santiago Bernabéu'),
+('FC Barcelona', 'Barcelona', 'Camp Nou'),
 ('Manchester United', 'Manchester', 'Old Trafford'),
 ('Paris Saint-Germain', 'Paris', 'Parc des Princes'),
 ('Bayern Munich', 'Munich', 'Allianz Arena');
 
--- Insert Players
-INSERT INTO jugadores (idEquipo, nombre, edad, nacionalidad) VALUES 
-(1, 'Lionel Messi', 36, 'Argentina'),
-(1, 'Pedri', 21, 'Espana'),
-(2, 'Karim Benzema', 36, 'Francia'),
-(2, 'Vinícius Jr.', 24, 'Brasil'),
-(3, 'Bruno Fernandes', 29, 'Portugal'),
-(3, 'Marcus Rashford', 26, 'Inglaterra'),
-(3, 'Casemiro', 32, 'Brasil'),
-(4, 'Kylian Mbappé', 25, 'Francia'),
-(4, 'Neymar Jr.', 32, 'Brasil'),
-(5, 'Harry Kane', 30, 'Inglaterra'),
-(5, 'Joshua Kimmich', 29, 'Alemania');
-
 -- Insert Positions
-INSERT INTO posiciones (idJugador, posicion, descripcion) VALUES 
-(1, 'Delantero', 'Atacante principal, responsable de marcar goles.'),
-(2, 'Centrocampista', 'Conecta la defensa con el ataque, distribuye el balón.'),
-(3, 'Delantero', 'Jugador ofensivo con capacidad de finalización.'),
-(4, 'Extremo', 'Jugador veloz que ataca por las bandas.'),
-(5, 'Centrocampista', 'Organizador del equipo en la mitad del campo.'),
-(6, 'Delantero', 'Atacante rápido y goleador.'),
-(7, 'Mediocentro Defensivo', 'Protege la defensa y recupera balones.'),
-(8, 'Delantero', 'Extremadamente rápido y hábil con el balón.'),
-(9, 'Extremo', 'Jugador con gran regate y desborde por las bandas.'),
-(10, 'Delantero', 'Finalizador nato con gran capacidad de definición.'),
-(11, 'Centrocampista', 'Jugador versátil en la media cancha.');
+INSERT INTO posiciones (posicion, descripcion) VALUES 
+('Portero', 'Jugador encargado de evitar goles y proteger la portería.'),
+('Defensa Central', 'Clave en la defensa, intercepta ataques y despeja el balón.'),
+('Lateral', 'Defensa de banda que marca extremos y apoya en ataque.'),
+('Mediocentro Defensivo', 'Protege la defensa y recupera balones.'),
+('Pivote', 'Centrocampista que equilibra el equipo y distribuye el juego.'),
+('Mediocentro Ofensivo', 'Creador de juego, asiste a delanteros y genera oportunidades.'),
+('Extremo', 'Jugador veloz con regate que ataca por las bandas.'),
+('Delantero', 'Jugador ofensivo con capacidad de finalización.');
+
+-- Insert Players
+INSERT INTO jugadores (idEquipo, nombre, posicion, nacionalidad, edad) VALUES 
+(1, 'Kylian Mbappé','Delantero' ,'Francia', 26),
+(1, 'Vinícius Jr.','Extremo' ,'Brasil', 24),
+(2, 'Lamine Yamal','Delantero' ,'Espana', 36),
+(2, 'Pedri','Pivote' ,'Espana', 21),
+(3, 'Alejandro Garnacho','Extremo' ,'Argentina', 26),
+(3, 'Harry Maguire','Defensa Central' ,'Portugal', 31),
+(4, 'Gianluigi Donnarumma','Portero' ,'Italia', 30),
+(4, 'Achraf Hakimi','Lateral' ,'Marruecos', 28),
+(5, 'Harry Kane','Delantero' ,'Inglaterra', 30),
+(5, 'Joshua Kimmich','Mediocentro Defensivo' ,'Alemania', 29);
+
+
 
