@@ -77,19 +77,131 @@ function controlGet($_conexion, $entrada)
 }
 function controlPost($_conexion, $entrada)
 {
-    try {
-        $consulta = "INSERT INTO desarrolladoras (nombre_desarrolladora, ciudad, anno_fundacion) VALUES (:n, :c, :a)";
+
+    //3 opciones de tabla equipos, jugadores, posiciones
+
+    $tabla = $entrada["tabla"];
+
+    if ($tabla=="equipos") {
+
+        $consulta = "SELECT * FROM equipos WHERE nombre = ?";        
         $stmt = $_conexion->prepare($consulta);
         $stmt->execute([
-            "n" => $entrada["nombre_desarrolladora"],
-            "c" => $entrada["ciudad"],
-            "a" => $entrada["anno_fundacion"]
+            $entrada["nombre"]
         ]);
-        echo json_encode(["todo" => "bien"]);
-    } catch (PDOException $e) {
-        echo $e->getMessage();
-        echo json_encode(["error" => "no se pudo meter"]);
+
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        if (!$res) {
+            try {
+                $consulta = "INSERT INTO $tabla (nombre, ciudad, estadio) VALUES (?, ?, ?)";
+                $stmt = $_conexion->prepare($consulta);
+                $stmt->execute([
+                    $entrada["nombre"],
+                    $entrada["ciudad"],
+                    $entrada["estadio"]
+                ]);
+                echo json_encode(["todo" => "bien"]);
+            } catch (PDOException $e) {
+                echo $e->getMessage();
+                echo json_encode(["error" => "no se pudo meter"]);
+            }
+        } else {
+            echo json_encode(["error" => "equipo ya existe"]);
+        }
+        
+
+        
+    } else if ($tabla=="jugadores") {
+        //TODO comprobar que tanto la posicion como el idEquipo existan en la otra tabla
+        $consulta = "SELECT * FROM jugadores WHERE nombre = ?";        
+        $stmt = $_conexion->prepare($consulta);
+        $stmt->execute([
+            $entrada["nombre"]
+        ]);
+
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        if (!$res) {
+
+            $consulta = "SELECT * FROM equipos WHERE id = ?";        
+            $stmt = $_conexion->prepare($consulta);
+            $stmt->execute([
+                $entrada["idEquipo"]
+            ]);
+    
+            $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if ($res) {
+                
+                $consulta = "SELECT * FROM posiciones WHERE posicion = ?";        
+                $stmt = $_conexion->prepare($consulta);
+                $stmt->execute([
+                    $entrada["posicion"]
+                ]);
+    
+                $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                if ($res) {
+                    try {
+                        $consulta = "INSERT INTO $tabla (idEquipo, nombre, posicion, nacionalidad, edad) VALUES (?, ?, ?, ?, ?)";
+                        $stmt = $_conexion->prepare($consulta);
+                        $stmt->execute([
+                            $entrada["idEquipo"],
+                            $entrada["nombre"],
+                            $entrada["posicion"],
+                            $entrada["nacionalidad"],
+                            $entrada["edad"]
+                        ]);
+                        echo json_encode(["todo" => "bien"]);
+                    } catch (PDOException $e) {
+                        echo $e->getMessage();
+                        echo json_encode(["error" => "no se pudo meter"]);
+                    }
+                } else {
+                    echo json_encode(["error" => "posicion no existe"]);
+                }
+                
+
+            } else {
+                echo json_encode(["error" => "equipo no existe"]);
+            }
+            
+
+        } else {
+            echo json_encode(["error" => "jugador ya existe"]);
+        }
+    } else if ($tabla=="posiciones") {
+        $consulta = "SELECT * FROM posiciones WHERE posicion = ?";        
+        $stmt = $_conexion->prepare($consulta);
+        $stmt->execute([
+            $entrada["posicion"]
+        ]);
+
+        $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        if (!$res) {
+            try {
+                $consulta = "INSERT INTO $tabla (posicion, descripcion) VALUES (?, ?)";
+                $stmt = $_conexion->prepare($consulta);
+                $stmt->execute([
+                    $entrada["posicion"],
+                    $entrada["descripcion"]
+                ]);
+                echo json_encode(["todo" => "bien"]);
+            } catch (PDOException $e) {
+                echo $e->getMessage();
+                echo json_encode(["error" => "no se pudo meter"]);
+            }
+        } else {
+            echo json_encode(["error" => "posicion ya existe"]);
+        }
+    } else{
+        //no hay esa tabla en la BBDD abortar
     }
+    
+
+    
 }
 function controlPut($_conexion, $entrada)
 {
