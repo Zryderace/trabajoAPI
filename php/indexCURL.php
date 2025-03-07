@@ -13,7 +13,6 @@
     ?>
 </head>
 <body>
-
     <div class="container text-center mt-5">
         <h1>Q pasa pisha, aquí nuestra API:</h1>
         <p class="mt-3">Elige una opción:</p>

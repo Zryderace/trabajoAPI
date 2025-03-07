@@ -33,24 +33,31 @@
         }
     </script>
     <?php
-    error_reporting(E_ALL);
-    ini_set("display_errors", 1);
-    require "conexionPDO.php";
+        // Activa la visualización de errores para depuración
+        error_reporting(E_ALL);
+        ini_set("display_errors", 1);
+
+        // Recoger informacion del archivo de conexion.
+        require "conexionPDO.php";
     ?>
 </head>
-
 <body>
-
     <?php
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $metodo = "POST";
+        // Variable para controlar que hemos enviado al nucleoAPI
         $tabla = isset($_POST["seleccion"]) ? $_POST["seleccion"] : "";
-        $datos = [];
+        // Array donde se almacenará la información que deseamos enviar al nucleoAPI
+        $datos = []; 
+        // URL donde se enviarán los datos
         $url = "http://localhost/trabajoAPI/php/nucleoAPI.php";
 
+        // Booleano para controlar errores
         $error = false;
 
+        // Comprobación según la tabla seleccionada
         if ($tabla == "equipos") {
+            // Recoge y limpia los datos del formulario
             $nombre = isset($_POST["nombre"]) ? $_POST["nombre"] : "";
             $ciudad = isset($_POST["ciudad"]) ? $_POST["ciudad"] : "";
             $estadio = isset($_POST["estadio"]) ? $_POST["estadio"] : "";
@@ -59,6 +66,7 @@
             $ciudad = ucfirst(strtolower(trim($ciudad)));
             $estadio = ucfirst(strtolower(trim($estadio)));
 
+            // Verifica si el equipo ya existe en la base de datos
             $arrayEquipos = [];
             try {
                 $res = $_conexion->query("SELECT * FROM equipos");
@@ -69,39 +77,36 @@
                 echo "Error en la consulta " . $e->getMessage();
             }
 
+            // Validación de datos
             if ($nombre == "" || $ciudad == "" || $estadio == "") {
                 echo ("Por favor rellene todos los datos");
                 $error = true;
             } elseif (strlen($nombre) < 3) {
                 echo ("Por favor introduce 3 letras o mas para nombreEquipo");
                 $error = true;
-            }
-            elseif (strlen($ciudad) < 3) {
+            } elseif (strlen($ciudad) < 3) {
                 echo ("Por favor introduce 3 letras o mas para nombreEquipo");
                 $error = true;
-            }
-            elseif (strlen($estadio) < 3) {
+            } elseif (strlen($estadio) < 3) {
                 echo ("Por favor introduce 3 letras o mas para nombreEquipo");
                 $error = true;
             } elseif (in_array($nombre, $arrayEquipos)) {
                 echo ("El equipo introducido ya existe en la BBDD.");
                 $error = true;
             }
-            
         } else if ($tabla == "jugadores") {
-
+            // Recoge y limpia los datos del formulario
             $idEquipo = isset($_POST["equipoJugador"]) ? $_POST["equipoJugador"] : "";
             $nombre = isset($_POST["nombreJugador"]) ? $_POST["nombreJugador"] : "";
             $posicion = isset($_POST["posicionJugador"]) ? $_POST["posicionJugador"] : "";
             $nacionalidad = isset($_POST["nacionalidad"]) ? $_POST["nacionalidad"] : "";
             $edad = isset($_POST["edad"]) ? $_POST["edad"] : "";
 
-            
-
             $nombre = ucfirst(strtolower(trim($nombre)));
             $nacionalidad = ucfirst(strtolower(trim($nacionalidad)));
             $edad = trim($edad);
 
+            // Verifica si el jugador ya existe
             $arrayJugadores = [];
             try {
                 $res = $_conexion->query("SELECT * FROM jugadores");
@@ -112,35 +117,32 @@
                 echo "Error en la consulta " . $e->getMessage();
             }
 
-
+            // Validación de datos
             if ($nombre == "" || $idEquipo == "" || $posicion == "" || $nacionalidad == "" || $edad == "") {
                 echo ("por favor rellena todos los datos");
                 $error = true;
             } elseif (strlen($nombre) < 3) {
-                    echo ("Por favor introduce 3 letras o mas para nombre");
-                    $error = true;
-                }
-                elseif (strlen($nacionalidad) < 3) {
-                    echo ("Por favor introduce 3 letras o mas para nacionalidad");
-                    $error = true;
-                }
-                elseif ($edad < 16 || $edad >= 100) {
-                    echo ("Por favor introduce edad >15 y <100");
-                    $error = true;
-                } elseif (in_array($nombre, $arrayJugadores)) {
-                    echo ("El jugador introducido ya existe en la BBDD.");
-                    $error = true;
-                }
-
-            
-            
+                echo ("Por favor introduce 3 letras o mas para nombre");
+                $error = true;
+            } elseif (strlen($nacionalidad) < 3) {
+                echo ("Por favor introduce 3 letras o mas para nacionalidad");
+                $error = true;
+            } elseif ($edad < 16 || $edad >= 100) {
+                echo ("Por favor introduce edad >15 y <100");
+                $error = true;
+            } elseif (in_array($nombre, $arrayJugadores)) {
+                echo ("El jugador introducido ya existe en la BBDD.");
+                $error = true;
+            } 
         } else if ($tabla == "posiciones") {
+            // Recoge y limpia los datos del formulario
             $posicion = isset($_POST["posicion"]) ? $_POST["posicion"] : "";
             $descripcion = isset($_POST["descripcion"]) ? $_POST["descripcion"] : "";
 
             $posicion = ucfirst(strtolower(trim($posicion)));
             $descripcion = ucfirst(trim($descripcion));
 
+            // Verifica si el nombre de la posicion ya existe
             $arrayPosiciones = [];
             try {
                 $res = $_conexion->query("SELECT * FROM posiciones");
@@ -151,6 +153,7 @@
                 echo "Error en la consulta " . $e->getMessage();
             }
 
+            // Validación de datos
             if ($posicion == "" || $descripcion == "") {
                 echo ("por favor rellena todos los datos");
                 $error = true;
@@ -170,12 +173,8 @@
             echo ("No existe tabla en BBDD");
         }
 
-
-
-        if ($error) {
-            //Podemos mostrar información/mensajes en caso de errores para advertir al usuario.
-
-        } else {
+        if (!$error) {
+            // Si no hubo errores, prepara los datos para nucleoAPI
             if ($tabla == "equipos") {
                 $datos = [
                     "nombre" => $nombre,
@@ -192,7 +191,7 @@
                     "edad" => $edad,
                     "tabla" => $tabla
                 ];
-            } else  if ($tabla == "posiciones") {
+            } else if ($tabla == "posiciones") {
                 $datos = [
                     "posicion" => $posicion,
                     "descripcion" => $descripcion,
@@ -203,9 +202,7 @@
                 echo ("no existe tabla en BBDD");
             }
 
-
-
-
+            // Configura la solicitud HTTP a la API
             $opciones = [
                 "http" => [
                     "header" => "Content-Type: application/json",
@@ -216,6 +213,11 @@
 
             $contexto = stream_context_create($opciones);
 
+            /**
+             * Establece una conexión HTTP con stream_context_create(),
+             * envía una solicitud POST con los datos y devuelve la respuesta del servidor.
+             * Si hay un error, muestra el mensaje. El false evita que PHP busque el archivo en las rutas de include_path.
+            */
             try {
                 $respuesta = file_get_contents($url, false, $contexto);
                 //construye una conexion HTTP usando el contexto de stream context
@@ -281,15 +283,12 @@
                 <select name="equipoJugador" class="form-select">
                     <option selected disabled>---ELIJA UN EQUIPO---</option>
                     <?php
-
                     $contador = 1;
                     foreach($fila as $aux) { ?>
-                        <option value="<?php echo $contador ?>"><?php echo $aux["nombre"] ?></option>
-                        
+                        <option value="<?php echo $contador ?>"><?php echo $aux["nombre"] ?></option>        
                     <?php
                     $contador++;
-                 }
-                    
+                 }      
                 ?>
                 </select><br>
 
@@ -299,17 +298,15 @@
                 <select name="posicionJugador" class="form-select">
                 <option selected disabled>---ELIJA UNA POSICIÓN---</option>
                     <?php
-
                     $contador = 1;
                     foreach($fila2 as $aux) { ?>
-                        <option value="<?php echo $aux["posicion"] ?>"><?php echo $aux["posicion"] ?></option>
-                        
+                        <option value="<?php echo $aux["posicion"] ?>"><?php echo $aux["posicion"] ?></option>        
                     <?php
                     $contador++;
-                 }
-                    
+                }                  
                 ?>
                 </select><br>
+
                 <label for="nacionalidad" class="form-label">Nacionalidad:</label>
                 <input type="text" name="nacionalidad" class="form-control" placeholder="Escribe la nacionalidad del futbolista..."><br>
                 <label for="edad" class="form-label">Edad:</label>
@@ -326,8 +323,5 @@
 
             <button type="submit" class="btn btn-primary" id="campoBoton" style="display: none;">Ejecutar accion</button>
         </form>
-
-
 </body>
-
 </html>
