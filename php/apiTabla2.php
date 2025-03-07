@@ -32,13 +32,12 @@
         }
     </script>
     <?php
-    error_reporting(E_ALL);
-    ini_set("display_errors", 1);
-    require "conexionPDO.php";
+        error_reporting(E_ALL);
+        ini_set("display_errors", 1);
+        require "conexionPDO.php";
     ?>
 </head>
 <body>
-
     <?php
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $metodo = "POST";
@@ -47,6 +46,13 @@
                 $url = "http://localhost/trabajoAPI/php/nucleoAPI.php";
 
                 $error = false;
+
+                $consulta = "SELECT * FROM equipos";
+                $resultado = $_conexion -> query($consulta);
+                $equipos = [];
+                while($fila = $resultado -> fetch_assoc()) {
+                    array_push($equipos, $fila["id"]);
+                }        
 
                 if ($tabla=="equipos") {
                     $nombre = isset($_POST["nombre"]) ? $_POST["nombre"] : "";
@@ -230,11 +236,18 @@
                 <select name="equipoJugador" class="form-select">
                     <option selected disabled>---ELIJA UN EQUIPO---</option>
                     <!-- MEJORAR CON FOREACH - para recoger los que se encuentren de la tabla equipos y no escribirlos a mano -->
-                    <option value="1">Real Madrid</option>
-                    <option value="2">FC Barcelona</option>
-                    <option value="3">Manchester United</option>
-                    <option value="4">Paris Saint-Germain</option>
-                    <option value="5">Bayern Munich</option>
+                    <?php foreach($equipos as $equipo) { ?>
+                        <option value="<?php echo $idEquipo ?>">
+                            <?php echo $nombre ?>
+                        </option>
+                    <?php } ?>
+                    <!--
+                        <option value="1">Real Madrid</option>
+                        <option value="2">FC Barcelona</option>
+                        <option value="3">Manchester United</option>
+                        <option value="4">Paris Saint-Germain</option>
+                        <option value="5">Bayern Munich</option>
+                    -->
                 </select><br>
                 
                 <label for="nombreJugador" class="form-label">Nombre:</label>

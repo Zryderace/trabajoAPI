@@ -243,21 +243,25 @@ function controlPut($_conexion, $entrada)
 }
 function controlDelete($_conexion, $entrada)
 {
-    $nombre_desarrolladora = isset($entrada["nombre_desarrolladora"]) && !empty($entrada["nombre_desarrolladora"]) ? $entrada["nombre_desarrolladora"] : "";
-
+    $nombreJugador = isset($entrada["nombre"]) && !empty($entrada["nombre"]) ? $entrada["nombre"] : "";
+    $consulta = "SELECT * FROM jugadores";
+    $stmt = $_conexion -> prepare($consulta);
+    $stmt -> execute();
+    
+/*
     try {
-        $consulta = $_conexion->prepare("SELECT * FROM desarrolladoras WHERE nombre_desarrolladora = :nombre");
+        $consulta = $_conexion->prepare("SELECT * FROM jugadores WHERE nombre = :nombre");
 
-        $consulta->execute(["nombre" => $nombre_desarrolladora]);
+        $consulta->execute(["nombre" => $nombreJugador]);
 
         $fila = $consulta->fetch();
 
         if ($fila) {
             try {
-                $consulta = "DELETE FROM desarrolladoras WHERE nombre_desarrolladora = :n";
+                $consulta = "DELETE FROM jugadores WHERE nombre = '$nombreJugador'";
                 $stmt = $_conexion->prepare($consulta);
                 $stmt->execute([
-                    "n" => $entrada["nombre_desarrolladora"],
+                    $entrada["nombre"]
                 ]);
                 echo json_encode(["todo" => "bien"]);
             } catch (PDOException $e) {
@@ -265,9 +269,20 @@ function controlDelete($_conexion, $entrada)
                 echo json_encode(["error" => "no se pudo borrar"]);
             }
         } else {
-            echo json_encode(["error" => "no existe desarrolladora con ese nombre"]);
+            echo json_encode(["error" => "No existe jugador con ese nombre"]);
         }
     } catch (PDOException $e) {
         echo "ERROR: no se puede recuperar la consulta " . $e->getMessage();
+    }
+*/
+    $consulta = "DELETE FROM jugadores WHERE nombre = :n";
+    $stmt = $_conexion -> prepare($consulta);
+    $stmt -> execute([
+        "n" => $entrada["nombreJugador_borrar"]
+    ]);
+    if($stmt){
+        echo json_encode(["mensaje" => "Se ha borrado correctamente el jugador."]);
+    } else {
+        echo json_encode(["mensaje" => "Error al acceder a los datos."]);
     }
 }
