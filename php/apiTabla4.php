@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GET Jugadores</title>
+    <title>DELETE Jugadores</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <?php
     error_reporting(E_ALL);
@@ -17,32 +17,26 @@
 
     <?php
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $metodo = "GET";
-        $nombreJugador = $_POST["nombreJugador"];
-        $informacion = isset($_POST["informacion"]) ? $_POST["informacion"] : "";
+        $metodo = "DELETE";
+        $nombreJugador = $_POST["nombreJugador_borrar"];
         $datos = [];
         $url = "http://localhost/trabajoAPI/php/nucleoAPI.php";
 
         $error = false;
 
-        if ($informacion == "") {
-            echo ("por favor selecciona tipo de formacion a enseñar");
+        //hacemos trim, hacemos la primera mayuscula
+        $nombreJugador = ucfirst(trim($nombreJugador));
+        $resultado = $_conexion->query("SELECT * FROM jugadores");
+
+        if ($nombreJugador == "") {
+            echo ("Por favor introduce un jugador.");
             $error = true;
         } else {
-            $url .= "?informacion=$informacion";
+            $url = $url . "?=" . urlencode($nombreJugador);
         }
-
-
-        //hacemos trim, pasamos todo a minuscula, hacemos la primera mayuscula
-        $nombreJugador = ucfirst(strtolower(trim($nombreJugador)));
-
-        if (strlen($nombreJugador) < 3) {
-            echo ("Por favor introduce 3 letras o mas para una mejor busqueda");
-            $error = true;
-        } else {
-            $url = $url . "&nombreJugador=" . $nombreJugador;
-        }
-
+        $datos = [
+            "nombreJugador_borrar" => $_POST["nombreJugador_borrar"]
+        ];
 
         if ($error) {
             //hay algun error
@@ -59,8 +53,9 @@
                 ]
             ];
 
-            // echo "la puta url es: " . $url ."<br>";
+            var_dump($datos);
 
+            // echo "la puta url es: " . $url ."<br>";
             $contexto = stream_context_create($opciones);
 
             try {
@@ -77,24 +72,12 @@
 
     <form action="" method="post">
         <div class="container m-4">
-            <h1>OBTENER INFO DE FUTBOLISTAS</h1>
+            <h1>BORRAR JUGADOR</h1>
             <div class="mb-3">
-                <label for="nombreJugador" class="form-label">Nombre Jugador a buscar:</label>
-                <input type="text" class="form-control" name="nombreJugador" placeholder="Escribe el nombre de un futbolista...">
+                <label for="nombreJugador_borrar" class="form-label">Nombre Jugador a buscar:</label>
+                <input type="text" class="form-control" name="nombreJugador_borrar" placeholder="Escribe el nombre de un futbolista...">
             </div>
-            <div class="mb-3">
-                <label for="informacion" class="form-label">Informacion:</label>
-                <select name="informacion" class="form-select">
-                    <option selected disabled>Selecciona informacion</option>
-                    <option value="*">Toda la info</option>
-                    <option value="idEquipo">idEquipo</option>
-                    <option value="nombre">nombre</option>
-                    <option value="edad">edad</option>
-                    <option value="nacionalidad">nacionalidad</option>
-                </select>
-            </div>
-
-            <button class="btn btn-primary" type="submit">Prueba loco</button>
+            <button class="btn btn-primary" type="submit">Borrar</button>
         </div>
     </form>
 

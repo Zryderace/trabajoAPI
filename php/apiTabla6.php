@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GET Jugadores</title>
+    <title>Primer cURL</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <?php
     error_reporting(E_ALL);
@@ -53,7 +53,7 @@
             //no tenemos que dat datos ya que va por url
             $opciones = [
                 "http" => [
-                    "header" => "Content-Type: application/json",
+                    "header" => "Content-Type: application/jason",
                     "method" => $metodo,
                     "content" => json_encode($datos)
                 ]
@@ -77,7 +77,7 @@
 
     <form action="" method="post">
         <div class="container m-4">
-            <h1>OBTENER INFO DE FUTBOLISTAS</h1>
+            <h1>Mostrar todos los nombres de los futbolistas</h1>
             <div class="mb-3">
                 <label for="nombreJugador" class="form-label">Nombre Jugador a buscar:</label>
                 <input type="text" class="form-control" name="nombreJugador" placeholder="Escribe el nombre de un futbolista...">

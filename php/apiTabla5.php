@@ -6,32 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>POST</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script>
-        function mostrarFormulario() {
-            let seleccion = document.querySelector("select[name=seleccion]").value;
-
-            let campoEquipo = document.getElementById("campoEquipo");
-            let campoJugador = document.getElementById("campoJugador");
-            let campoPosicion = document.getElementById("campoPosicion");
-            let campoBoton = document.getElementById("campoBoton");
-
-            campoEquipo.style.display = "none";
-            campoJugador.style.display = "none";
-            campoPosicion.style.display = "none";
-            campoBoton.style.display = "none";
-
-            if (seleccion == "equipos") {
-                campoEquipo.style.display = "block";
-                campoBoton.style.display = "block";
-            } else if (seleccion == "jugadores") {
-                campoJugador.style.display = "block";
-                campoBoton.style.display = "block";
-            } else if (seleccion == "posiciones") {
-                campoPosicion.style.display = "block";
-                campoBoton.style.display = "block";
-            }
-        }
-    </script>
+    
     <?php
     error_reporting(E_ALL);
     ini_set("display_errors", 1);
