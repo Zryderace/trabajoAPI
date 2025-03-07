@@ -17,16 +17,6 @@
 <body>
 
     <?php
-<<<<<<<<< Temporary merge branch 1
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $metodo = "GET";
-        $nombreJugador = $_POST["nombreJugador"];
-        $informacion = isset($_POST["informacion"]) ? $_POST["informacion"] : "";
-        $datos = [];
-        $url = "http://localhost/trabajoAPI/php/nucleoAPI.php";
-
-        $error = false;
-=========
     $respuesta = [];
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $metodo = "GET";
@@ -45,8 +35,8 @@
             }
             
 
-            //hacemos trim, pasamos todo a minuscula, hacemos la primera mayuscula
-            $nombreJugador = ucfirst(strtolower(trim($nombreJugador)));
+        //hacemos trim, pasamos todo a minuscula, hacemos la primera mayuscula
+        $nombreJugador = ucfirst(strtolower(trim($nombreJugador)));
 
             if (strlen($nombreJugador)<3) {
                 $errorLongitud = "Por favor introduce 3 letras o mas para una mejor busqueda";
@@ -86,82 +76,10 @@
                 $respuesta = json_decode($respuesta, true);
             }
             
->>>>>>>>> Temporary merge branch 2
 
-        if ($informacion == "") {
-            echo ("por favor selecciona tipo de formacion a enseñar");
-            $error = true;
-        } else {
-            $url .= "?informacion=$informacion";
         }
-
-
-        //hacemos trim, pasamos todo a minuscula, hacemos la primera mayuscula
-        $nombreJugador = ucfirst(strtolower(trim($nombreJugador)));
-
-        if (strlen($nombreJugador) < 3) {
-            echo ("Por favor introduce 3 letras o mas para una mejor busqueda");
-            $error = true;
-        } else {
-            $url = $url . "&nombreJugador=" . $nombreJugador;
-        }
-
-
-        if ($error) {
-            //hay algun error
-
-        } else {
-            //all gucci sigma 100% aura no cap
-
-            //no tenemos que dat datos ya que va por url
-            $opciones = [
-                "http" => [
-                    "header" => "Content-Type: application/jason",
-                    "method" => $metodo,
-                    "content" => json_encode($datos)
-                ]
-            ];
-
-            // echo "la puta url es: " . $url ."<br>";
-
-            $contexto = stream_context_create($opciones);
-
-            try {
-                $respuesta = file_get_contents($url, false, $contexto);
-                //construye una conexion HTTP usando el contexto de stream context
-            } catch (Exception $e) {
-                echo "Error al realizar la solicitud " . $e->getMessage();
-            }
-
-            echo "<pre>" . htmlspecialchars($respuesta) . "</pre>";
-        }
-    }
     ?>
 
-<<<<<<<<< Temporary merge branch 1
-    <form action="" method="post">
-        <div class="container m-4">
-            <h1>OBTENER INFO DE FUTBOLISTAS</h1>
-            <div class="mb-3">
-                <label for="nombreJugador" class="form-label">Nombre Jugador a buscar:</label>
-                <input type="text" class="form-control" name="nombreJugador" placeholder="Escribe el nombre de un futbolista...">
-            </div>
-            <div class="mb-3">
-                <label for="informacion" class="form-label">Informacion:</label>
-                <select name="informacion" class="form-select">
-                    <option selected disabled>Selecciona informacion</option>
-                    <option value="*">Toda la info</option>
-                    <option value="idEquipo">idEquipo</option>
-                    <option value="nombre">nombre</option>
-                    <option value="edad">edad</option>
-                    <option value="nacionalidad">nacionalidad</option>
-                </select>
-            </div>
-
-            <button class="btn btn-primary" type="submit">Prueba loco</button>
-        </div>
-    </form>
-=========
     <div class="container mt-5">
     <h2 class="mb-4">Formulario de Búsqueda de Jugador</h2>
 
@@ -225,7 +143,6 @@
         </tbody>
     </table>
 </div>
->>>>>>>>> Temporary merge branch 2
 
 </body>
 
