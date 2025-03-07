@@ -79,19 +79,19 @@
 
             // Validación de datos
             if ($nombre == "" || $ciudad == "" || $estadio == "") {
-                echo ("Por favor rellene todos los datos");
+                echo ("<p>Por favor rellene todos los datos</p>");
                 $error = true;
             } elseif (strlen($nombre) < 3) {
-                echo ("Por favor introduce 3 letras o mas para nombreEquipo");
+                echo ("<p>Por favor introduce 3 o más letras para el nombre del equipo!</p>");
                 $error = true;
             } elseif (strlen($ciudad) < 3) {
-                echo ("Por favor introduce 3 letras o mas para nombreEquipo");
+                echo ("<p>Por favor introduce 3 o más letras para la ciudad del equipo!</p>");
                 $error = true;
             } elseif (strlen($estadio) < 3) {
-                echo ("Por favor introduce 3 letras o mas para nombreEquipo");
+                echo ("<p>Por favor introduce 3 o más letras para el estadio del equipo!</p>");
                 $error = true;
             } elseif (in_array($nombre, $arrayEquipos)) {
-                echo ("El equipo introducido ya existe en la BBDD.");
+                echo ("<p>El equipo introducido ya existe en la BBDD.</p>");
                 $error = true;
             }
         } else if ($tabla == "jugadores") {
@@ -119,19 +119,19 @@
 
             // Validación de datos
             if ($nombre == "" || $idEquipo == "" || $posicion == "" || $nacionalidad == "" || $edad == "") {
-                echo ("por favor rellena todos los datos");
+                echo ("<p>Por favor rellene todos los datos</p>");
                 $error = true;
             } elseif (strlen($nombre) < 3) {
-                echo ("Por favor introduce 3 letras o mas para nombre");
+                echo ("<p>Por favor introduce 3 o más letras para el nombre del futbolista!</p>");
                 $error = true;
             } elseif (strlen($nacionalidad) < 3) {
-                echo ("Por favor introduce 3 letras o mas para nacionalidad");
+                echo ("<p>Por favor introduce 3 o más letras para la nacionalidad del futbolista!</p>");
                 $error = true;
             } elseif ($edad < 16 || $edad >= 100) {
-                echo ("Por favor introduce edad >15 y <100");
+                echo ("<p>Por favor introduce una edad entre 16 y 100 años!</p>");
                 $error = true;
             } elseif (in_array($nombre, $arrayJugadores)) {
-                echo ("El jugador introducido ya existe en la BBDD.");
+                echo ("<p>El jugador introducido ya existe en la BBDD.</p>");
                 $error = true;
             } 
         } else if ($tabla == "posiciones") {
@@ -155,22 +155,22 @@
 
             // Validación de datos
             if ($posicion == "" || $descripcion == "") {
-                echo ("por favor rellena todos los datos");
+                echo ("<p>Por favor rellene todos los datos</p>");
                 $error = true;
             } elseif (strlen($posicion) < 3) {
-                echo ("Por favor introduce 3 letras o mas para posicion");
+                echo ("<p>Por favor introduce 3 o más letras para la posicion!</p>");
                 $error = true;
             } elseif (strlen($descripcion) < 3) {
-                echo ("Por favor introduce 3 letras o mas para descripcion");
+                echo ("<p>Por favor introduce 3 o más letras para la descripcion de la posición!</p>");
                 $error = true;
             } elseif (in_array($posicion, $arrayPosiciones)) {
-                echo ("La posicion introducida ya existe en la BBDD.");
+                echo ("<p>La posicion introducida ya existe en la BBDD.</p>");
                 $error = true;
             }
             
         } else {
             $error = true;
-            echo ("No existe tabla en BBDD");
+            echo ("<p>No existe tabla en BBDD</p>");
         }
 
         if (!$error) {
@@ -199,7 +199,7 @@
                 ];
             } else {
                 $error = true;
-                echo ("no existe tabla en BBDD");
+                echo ("<p>No existe tabla en BBDD</p>");
             }
 
             // Configura la solicitud HTTP a la API
